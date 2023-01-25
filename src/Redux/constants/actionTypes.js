@@ -1,0 +1,4 @@
+export const ActionTypes = {
+  SET_VIEW: "VIEW CHANGED",
+  SET_NOTIFICATION: "NOTIFICATION ADDED",
+};

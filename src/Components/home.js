@@ -21,15 +21,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignContent: "flex-start",
   },
-  heroSectionExtended: {
-    backgroundColor: "#FFF3DC",
-    width: "100vw",
-    height: "100vh",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignContent: "flex-start",
-  },
   backgroundEffect1: {
     position: "fixed",
     top: 0,
@@ -116,12 +107,6 @@ export const HomePage = () => {
           <img src={heroSectionIllustration} alt={"hero section"} />
         </Grid>
       </Grid>
-      {/*<Grid*/}
-      {/*  item*/}
-      {/*  container*/}
-      {/*  xs={9}*/}
-      {/*  className={classes.heroSectionExtended}*/}
-      {/*></Grid>*/}
     </Grid>
   );
 };
