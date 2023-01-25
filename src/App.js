@@ -1,9 +1,9 @@
+import Grid from "@mui/material/Grid";
+import { makeStyles } from "@mui/styles";
+import { HomePage } from "./Components/home";
+
 function App() {
-  return (
-    <div className="App">
-      <h1>This is NeuPort.ai</h1>
-    </div>
-  );
+  return <HomePage />;
 }
 
 export default App;
