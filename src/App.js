@@ -1,9 +1,8 @@
-import Grid from "@mui/material/Grid";
-import { makeStyles } from "@mui/styles";
 import { HomePage } from "./Components/home";
+import { WorkSpace } from "./Components/application/workspace";
 
 function App() {
-  return <HomePage />;
+  return <>{Math.random() > 0.5 ? <HomePage /> : <WorkSpace />}</>;
 }
 
 export default App;

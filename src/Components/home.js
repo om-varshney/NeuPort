@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
   HSPrimaryText: {
     fontFamily: "outfit !important",
     fontWeight: "bold !important",
-    fontSize: "4.5rem !important",
+    fontSize: "4.2rem !important",
   },
   HSSecondaryText: {
     fontFamily: "roboto !important",

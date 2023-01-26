@@ -17,6 +17,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
+img {
+  user-select: none;
+  pointer-events: none;
+}
+
 .customNav::-webkit-scrollbar-thumb {
   background-color: #FF6584;
 }
