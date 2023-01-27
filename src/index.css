@@ -23,7 +23,7 @@ img {
 }
 
 .customNav::-webkit-scrollbar-thumb {
-  background-color: #FF6584;
+  background-color: #605D83;
 }
 
 .customNav::-webkit-scrollbar {
@@ -34,4 +34,26 @@ img {
 
 .customNav::-webkit-scrollbar-track {
   color: #FFF3DC;
+}
+
+.selectedStyleCard {
+  border: 2px solid #FF6685;
+}
+
+.MuiAlert-filledSuccess {
+  color: #3F3D56 !important;
+  background-color: rgba(160, 238, 83, 0.8) !important;
+}
+
+.MuiAlert-filledWarning {
+  /*background-color: rgba(234, 85, 183, 0.6) !important;*/
+  background-color: #FF6685 !important;
+}
+
+.MuiAlert-filledInfo {
+  background-color: #605D83 !important;
+}
+
+.MuiAlert-filledError {
+  background-color: rgba(131, 0, 0, 1) !important;
 }

@@ -5,6 +5,8 @@ import bg2 from "../Assets/BG 2.png";
 import heroSectionIllustration from "../Assets/Hero Section Illustration.png";
 import { NavBar } from "./navBar";
 import { Button, Typography } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { setView } from "../Redux/actions/neuportActions";
 
 const useStyles = makeStyles((theme) => ({
   homePage: {
@@ -68,8 +70,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const changeView = (dispatch) => {
+  dispatch(
+    setView({
+      homeState: false,
+      workspace: true,
+    })
+  );
+};
+
 export const HomePage = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   return (
     <Grid container xs={12} className={classes.homePage}>
@@ -91,6 +103,7 @@ export const HomePage = () => {
               size="large"
               variant="contained"
               className={classes.HSPrimaryButton}
+              onClick={() => changeView(dispatch)}
             >
               SHOW ME
             </Button>

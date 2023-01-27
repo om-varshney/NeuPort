@@ -1,6 +1,8 @@
 import { makeStyles } from "@mui/styles";
 import { Button, Grid } from "@mui/material";
 import logo from "../Assets/Logo.svg";
+import { useDispatch } from "react-redux";
+import { setView } from "../Redux/actions/neuportActions";
 
 const useStyles = makeStyles((theme) => ({
   logo: {
@@ -22,13 +24,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const changeView = (dispatch) => {
+  dispatch(
+    setView({
+      homeState: true,
+      workspace: false,
+    })
+  );
+};
+
 export const NavBar = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   return (
     <Grid item xs={9} className={classes.navBar}>
       <img src={logo} alt="Logo" className={classes.logo} />
-      <Button className={classes.navButton}>Home</Button>
+      <Button
+        className={classes.navButton}
+        onClick={() => changeView(dispatch)}
+      >
+        Home
+      </Button>
       <Button className={classes.navButton}>About</Button>
       <Button className={classes.navButton}>Create</Button>
     </Grid>

@@ -13,3 +13,31 @@ export const setNotificationContent = (notification) => {
     payload: notification,
   };
 };
+
+export const setContentImage = (image) => {
+  return {
+    type: ActionTypes.SET_CONTENT_IMAGE,
+    payload: image,
+  };
+};
+
+export const setStyleImage = (image) => {
+  return {
+    type: ActionTypes.SET_STYLE_IMAGE,
+    payload: image,
+  };
+};
+
+export const setOutputImage = (image) => {
+  return {
+    type: ActionTypes.SET_OUTPUT_IMAGE,
+    payload: image,
+  };
+};
+
+export const setNSTProcessing = (boolean) => {
+  return {
+    type: ActionTypes.SET_NST_PROCESSING,
+    payload: boolean,
+  };
+};

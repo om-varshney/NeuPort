@@ -2,9 +2,19 @@ import { Grid, Button, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { NavBar, navBar } from "../navBar";
 import uploadPicIllustration from "../../Assets/Upload Picture Illustration.svg";
-import downloadIllustration from "../../Assets/Download Illustration.png";
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CloudIcon from "@mui/icons-material/Cloud";
 import bg1 from "../../Assets/BG 1.png";
 import { ImageCard } from "./imageCard";
+import { useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setContentImage,
+  setNotificationContent,
+  setNSTProcessing,
+} from "../../Redux/actions/neuportActions";
+import { ThreeDots } from "react-loader-spinner";
 
 const useStyles = makeStyles((theme) => ({
   app: {
@@ -38,10 +48,14 @@ const useStyles = makeStyles((theme) => ({
     height: "70%",
     borderRadius: "1rem",
     display: "flex",
+    border: "5px solid rgba(63, 61, 86, 1)",
   },
   WSButtonsContainer: {
     display: "flex",
     justifyContent: "center",
+    backgroundColor: "#3F3D56",
+    borderRadius: "500px 500px 0px 0px",
+    padding: "10px",
   },
   WSPrimaryButton: {
     borderRadius: "500px !important",
@@ -52,46 +66,118 @@ const useStyles = makeStyles((theme) => ({
   },
   WSSecondaryButton: {
     borderRadius: "500px !important",
-    backgroundColor: "#3F3D56 !important",
+    backgroundColor: "#605D83 !important",
     color: "white !important",
     marginRight: "1rem !important",
     fontSize: "1rem !important",
   },
   uploadImageSection: {
-    display: "flex",
-    flexWrap: "wrap !important",
-    flexDirection: "column !important",
-    justifyContent: "space-evenly !important",
-    alignContent: "center !important",
-    borderRight: "2px solid #FFF3DC",
-    // padding: "5vh 0 3vh 0",
+    display: "flex !important",
+    justifyContent: "center !important",
+    alignContent: "space-between !important",
+    padding: "0vh 0 0vh 0",
+    borderRight: "5px solid rgba(63, 61, 86, 1)",
   },
   chooseStyleSection: {
     display: "flex !important",
     justifyContent: "center !important",
-    alignContent: "space-evenly !important",
-    // padding: "3vh 0 3vh 0",
+    alignContent: "space-between !important",
+    padding: "0vh 0 0vh 0",
   },
   WSPrimaryTextContainer: {
     display: "flex",
+    padding: "10px",
     justifyContent: "center",
+    backgroundColor: "#3F3D56",
+    borderRadius: "0 0 500px 500px",
   },
   WSPrimaryText: {
-    color: "white !important",
+    color: "ghostwhite !important",
     fontFamily: "roboto !important",
     fontWeight: "normal !important",
     fontSize: "1.4rem !important",
   },
   WSImageCardsSection: {
-    height: "44.1vh !important",
+    height: "35vh !important",
+    border: "3px solid rgba(63, 61, 86, 1)",
+    backgroundColor: "rgba(63, 61, 86, 1)",
+    borderRadius: "1rem 0 0 1rem",
     overflowX: "auto",
     overflowY: "auto",
     padding: "5px",
   },
+  WSUploadIllustration: {
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    alignContent: "center",
+    height: "35vh !important",
+    border: "3px solid rgba(63, 61, 86, 1)",
+    backgroundColor: "rgba(63, 61, 86, 1)",
+    borderRadius: "1rem",
+    padding: "5px",
+  },
 }));
 
-export const WorkSpace = () => {
+const handleFileUpload = (hiddenInput) => {
+  hiddenInput.current.click();
+};
+
+const handleUploadedFile = (event, dispatch) => {
+  const fileUploaded = URL.createObjectURL(event.target.files[0]);
+  // console.log(fileUploaded);
+  dispatch(setContentImage(fileUploaded));
+  dispatch(
+    setNotificationContent({
+      type: "success",
+      msg: "Image Uploaded Successfully",
+    })
+  );
+};
+
+const styleTransfer = (
+  contentImage,
+  styleImage,
+  nstState,
+  nstFunc,
+  dispatch
+) => {
+  if (!contentImage) {
+    dispatch(
+      setNotificationContent({
+        type: "warning",
+        msg: "Please Upload Your Image",
+      })
+    );
+    return;
+  }
+  if (!styleImage) {
+    dispatch(
+      setNotificationContent({
+        type: "warning",
+        msg: "Please Choose a Style.",
+      })
+    );
+    return;
+  }
+  if (!nstState) {
+    dispatch(setNSTProcessing(true));
+    nstFunc();
+  } else {
+    dispatch(
+      setNotificationContent({
+        type: "info",
+        msg: "Processing in Progress.",
+      })
+    );
+  }
+};
+
+export const WorkSpace = (props) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const hiddenInputField = useRef(null);
+
   return (
     <Grid container xs={12} className={classes.app}>
       <img src={bg1} alt="" className={classes.backgroundEffect1} />
@@ -100,65 +186,111 @@ export const WorkSpace = () => {
       <Grid item container xs={9} className={classes.workspaceContainer}>
         <Grid item container xs={12} className={classes.workspace}>
           <Grid item container xs={6} className={classes.uploadImageSection}>
-            <img src={uploadPicIllustration} alt="" height="55%" />
-            <Button
-              size="large"
-              variant="outlined"
-              className={classes.WSPrimaryButton}
-            >
-              UPLOAD IMAGE
-            </Button>
+            <Grid item xs={9} className={classes.WSPrimaryTextContainer}>
+              <Typography variant="h1" className={classes.WSPrimaryText}>
+                {props.nstState ? "Processing your Image" : "Upload Your Image"}
+              </Typography>
+            </Grid>
+            <Grid item xs={9} className={classes.WSUploadIllustration}>
+              {props.nstState ? (
+                <ThreeDots
+                  visible={true}
+                  height="80"
+                  width="80"
+                  color="#FF6685"
+                />
+              ) : (
+                <img
+                  style={{
+                    objectFit: "cover",
+                    maxWidth: "100%",
+                    maxHeight: "100%",
+                  }}
+                  src={props.image ? props.image : uploadPicIllustration}
+                  alt=""
+                  id="userImage"
+                />
+              )}
+            </Grid>
+            <Grid item xs={9} className={classes.WSButtonsContainer}>
+              <Button
+                size="large"
+                variant="contained"
+                className={classes.WSPrimaryButton}
+                endIcon={<CloudIcon />}
+                onClick={() => handleFileUpload(hiddenInputField)}
+                disabled={props.nstState}
+              >
+                UPLOAD
+              </Button>
+              <input
+                type="file"
+                style={{ display: "none" }}
+                ref={hiddenInputField}
+                onChange={(e) => handleUploadedFile(e, dispatch)}
+              />
+              <Button
+                size="large"
+                variant="contained"
+                className={classes.WSSecondaryButton}
+                endIcon={<CameraAltIcon />}
+                disabled={props.nstState}
+              >
+                CAPTURE
+              </Button>
+            </Grid>
           </Grid>
           <Grid item container xs={6} className={classes.chooseStyleSection}>
             <Grid item xs={9} className={classes.WSPrimaryTextContainer}>
               <Typography variant="h1" className={classes.WSPrimaryText}>
-                CHOOSE A STYLE
+                Choose a Style
               </Typography>
             </Grid>
             <Grid
               item
               container
               xs={9}
-              spacing={2}
               className={`${classes.WSImageCardsSection} customNav`}
             >
               <Grid item xs={6}>
-                <ImageCard />
+                <ImageCard index={0} />
               </Grid>
               <Grid item xs={6}>
-                <ImageCard />
+                <ImageCard index={1} />
               </Grid>
               <Grid item xs={6}>
-                <ImageCard />
+                <ImageCard index={2} />
               </Grid>
               <Grid item xs={6}>
-                <ImageCard />
+                <ImageCard index={3} />
               </Grid>
               <Grid item xs={6}>
-                <ImageCard />
-              </Grid>
-              <Grid item xs={6}>
-                <ImageCard />
-              </Grid>
-              <Grid item xs={6}>
-                <ImageCard />
-              </Grid>
-              <Grid item xs={6}>
-                <ImageCard />
+                <ImageCard index={4} />
               </Grid>
             </Grid>
             <Grid item xs={9} className={classes.WSButtonsContainer}>
               <Button
                 size="large"
-                variant="outlined"
+                variant="contained"
                 className={classes.WSPrimaryButton}
+                endIcon={<CheckCircleIcon />}
+                onClick={() =>
+                  styleTransfer(
+                    props.contentImage,
+                    props.styleImage,
+                    props.nstState,
+                    props.NSTFunc,
+                    dispatch
+                  )
+                }
               >
-                APPLY STYLE
+                APPLY
               </Button>
               <Button
                 size="large"
-                variant="outlined"
+                variant="contained"
                 className={classes.WSSecondaryButton}
+                endIcon={<CloudIcon />}
               >
                 UPLOAD
               </Button>
