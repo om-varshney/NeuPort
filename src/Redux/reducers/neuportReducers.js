@@ -59,3 +59,15 @@ export const NSTProcessingReducer = (state = false, { type, payload }) => {
       return state;
   }
 };
+
+export const ImageUploadTextReducer = (
+  state = "Upload Your Image",
+  { type, payload }
+) => {
+  switch (type) {
+    case ActionTypes.SET_IMAGE_UPLOAD_TEXT:
+      return payload;
+    default:
+      return state;
+  }
+};

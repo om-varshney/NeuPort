@@ -135,7 +135,7 @@ const handleUploadedFile = (event, dispatch) => {
   );
 };
 
-const styleTransfer = (
+const styleTransfer = async (
   contentImage,
   styleImage,
   nstState,
@@ -162,7 +162,7 @@ const styleTransfer = (
   }
   if (!nstState) {
     dispatch(setNSTProcessing(true));
-    nstFunc();
+    await nstFunc();
   } else {
     dispatch(
       setNotificationContent({
@@ -188,7 +188,7 @@ export const WorkSpace = (props) => {
           <Grid item container xs={6} className={classes.uploadImageSection}>
             <Grid item xs={9} className={classes.WSPrimaryTextContainer}>
               <Typography variant="h1" className={classes.WSPrimaryText}>
-                {props.nstState ? "Processing your Image" : "Upload Your Image"}
+                {props.imageUploadText}
               </Typography>
             </Grid>
             <Grid item xs={9} className={classes.WSUploadIllustration}>
@@ -206,7 +206,13 @@ export const WorkSpace = (props) => {
                     maxWidth: "100%",
                     maxHeight: "100%",
                   }}
-                  src={props.image ? props.image : uploadPicIllustration}
+                  src={
+                    props.outputImage
+                      ? props.outputImage
+                      : props.image
+                      ? props.image
+                      : uploadPicIllustration
+                  }
                   alt=""
                   id="userImage"
                 />
@@ -274,15 +280,16 @@ export const WorkSpace = (props) => {
                 variant="contained"
                 className={classes.WSPrimaryButton}
                 endIcon={<CheckCircleIcon />}
-                onClick={() =>
-                  styleTransfer(
-                    props.contentImage,
-                    props.styleImage,
-                    props.nstState,
-                    props.NSTFunc,
-                    dispatch
-                  )
-                }
+                // onClick={() =>
+                //   styleTransfer(
+                //     props.contentImage,
+                //     props.styleImage,
+                //     props.nstState,
+                //     props.NSTFunc,
+                //     dispatch
+                //   )
+                // }
+                onClick={props.NSTFunc}
               >
                 APPLY
               </Button>

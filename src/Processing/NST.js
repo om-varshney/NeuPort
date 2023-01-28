@@ -1,5 +1,7 @@
 import * as tf from "@tensorflow/tfjs";
 import {
+  setContentImage,
+  setImageUploadText,
   setNotificationContent,
   setNSTProcessing,
   setOutputImage,
@@ -11,14 +13,27 @@ const NST = async (contentImage, styleImage, model, dispatch) => {
       return;
     }
     const style = new Image(300, 300);
+    dispatch(setImageUploadText("Style Initialized."));
     const content = document.getElementById("userImage");
     style.src = styleImage;
-    const styled = await model.execute([
-      preprocess(style),
-      preprocess(content),
-    ]);
-    setOutputImage(tf.browser.toPixels(tf.squeeze(styled)));
-    setNSTProcessing(false);
+    dispatch(setImageUploadText("Preprocessing Input"));
+    const stylePP = preprocess(style);
+    const contentPP = preprocess(content);
+    dispatch(setImageUploadText("Making the magic happen"));
+    const styled = await model.execute([stylePP, contentPP]);
+    dispatch(setImageUploadText("Execution Complete"));
+    const canvas = document.createElement("canvas");
+    tf.browser.toPixels(tf.squeeze(styled), canvas).then((response) => {
+      console.log("Inside Promise");
+      canvas.toBlob(function (blob) {
+        let url = URL.createObjectURL(blob);
+        setContentImage(url);
+        setNSTProcessing(false);
+        console.log(url);
+        content.src = url;
+      });
+    });
+    // const dataURL = canvas.toDataURL("image/png");
   } catch (err) {
     console.log(err);
     dispatch(

@@ -41,3 +41,10 @@ export const setNSTProcessing = (boolean) => {
     payload: boolean,
   };
 };
+
+export const setImageUploadText = (text) => {
+  return {
+    type: ActionTypes.SET_IMAGE_UPLOAD_TEXT,
+    payload: text,
+  };
+};

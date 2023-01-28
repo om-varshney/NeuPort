@@ -51,12 +51,19 @@ function App() {
       ) : (
         <WorkSpace
           image={appState.contentImage}
-          NSTFunc={() =>
-            NST(appState.contentImage, appState.styleImage, model, dispatch)
+          NSTFunc={async () =>
+            await NST(
+              appState.contentImage,
+              appState.styleImage,
+              model,
+              dispatch
+            )
           }
           nstState={appState.nstProcessing}
           contentImage={appState.contentImage}
           styleImage={appState.styleImage}
+          outputImage={appState.outputImage}
+          imageUploadText={appState.imageUploadText}
         />
       )}
       <Snackbar
