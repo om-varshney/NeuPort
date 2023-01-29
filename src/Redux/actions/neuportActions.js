@@ -42,6 +42,13 @@ export const setNSTProcessing = (boolean) => {
   };
 };
 
+export const setNSTProcessingDone = (boolean) => {
+  return {
+    type: ActionTypes.SET_NST_PROCESSING_DONE,
+    payload: boolean,
+  };
+};
+
 export const setImageUploadText = (text) => {
   return {
     type: ActionTypes.SET_IMAGE_UPLOAD_TEXT,

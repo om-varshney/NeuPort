@@ -2,7 +2,13 @@ import { makeStyles } from "@mui/styles";
 import { Button, Grid } from "@mui/material";
 import logo from "../Assets/Logo.svg";
 import { useDispatch } from "react-redux";
-import { setView } from "../Redux/actions/neuportActions";
+import {
+  setContentImage,
+  setNSTProcessing,
+  setNSTProcessingDone,
+  setStyleImage,
+  setView,
+} from "../Redux/actions/neuportActions";
 
 const useStyles = makeStyles((theme) => ({
   logo: {
@@ -24,11 +30,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const changeView = (dispatch) => {
+const homeView = (dispatch) => {
   dispatch(
     setView({
       homeState: true,
       workspace: false,
+    })
+  );
+  dispatch(setContentImage(null));
+  dispatch(setStyleImage(null));
+  dispatch(setNSTProcessing(false));
+  dispatch(setNSTProcessingDone(false));
+};
+
+const workSpaceView = (dispatch) => {
+  dispatch(
+    setView({
+      homeState: false,
+      workspace: true,
     })
   );
 };
@@ -40,14 +59,16 @@ export const NavBar = () => {
   return (
     <Grid item xs={9} className={classes.navBar}>
       <img src={logo} alt="Logo" className={classes.logo} />
-      <Button
-        className={classes.navButton}
-        onClick={() => changeView(dispatch)}
-      >
+      <Button className={classes.navButton} onClick={() => homeView(dispatch)}>
         Home
       </Button>
       <Button className={classes.navButton}>About</Button>
-      <Button className={classes.navButton}>Create</Button>
+      <Button
+        className={classes.navButton}
+        onClick={() => workSpaceView(dispatch)}
+      >
+        Create
+      </Button>
     </Grid>
   );
 };

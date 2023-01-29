@@ -11,10 +11,12 @@ import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setContentImage,
+  setImageUploadText,
   setNotificationContent,
   setNSTProcessing,
 } from "../../Redux/actions/neuportActions";
 import { ThreeDots } from "react-loader-spinner";
+import NSTDownload from "./resultDisplay";
 
 const useStyles = makeStyles((theme) => ({
   app: {
@@ -127,6 +129,7 @@ const handleUploadedFile = (event, dispatch) => {
   const fileUploaded = URL.createObjectURL(event.target.files[0]);
   // console.log(fileUploaded);
   dispatch(setContentImage(fileUploaded));
+  dispatch(setNSTProcessing(false));
   dispatch(
     setNotificationContent({
       type: "success",
@@ -135,7 +138,7 @@ const handleUploadedFile = (event, dispatch) => {
   );
 };
 
-const styleTransfer = async (
+const styleTransfer = (
   contentImage,
   styleImage,
   nstState,
@@ -162,7 +165,8 @@ const styleTransfer = async (
   }
   if (!nstState) {
     dispatch(setNSTProcessing(true));
-    await nstFunc();
+    dispatch(setImageUploadText("Processing Input"));
+    setTimeout(() => nstFunc(), 500);
   } else {
     dispatch(
       setNotificationContent({
@@ -180,6 +184,11 @@ export const WorkSpace = (props) => {
 
   return (
     <Grid container xs={12} className={classes.app}>
+      <NSTDownload
+        open={props.nstDone}
+        output={props.outputImage}
+        input={props.image}
+      />
       <img src={bg1} alt="" className={classes.backgroundEffect1} />
       <img src={bg1} alt="" className={classes.backgroundEffect2} />
       <NavBar />
@@ -192,58 +201,54 @@ export const WorkSpace = (props) => {
               </Typography>
             </Grid>
             <Grid item xs={9} className={classes.WSUploadIllustration}>
-              {props.nstState ? (
-                <ThreeDots
-                  visible={true}
-                  height="80"
-                  width="80"
-                  color="#FF6685"
-                />
-              ) : (
+              {
                 <img
                   style={{
                     objectFit: "cover",
                     maxWidth: "100%",
                     maxHeight: "100%",
                   }}
-                  src={
-                    props.outputImage
-                      ? props.outputImage
-                      : props.image
-                      ? props.image
-                      : uploadPicIllustration
-                  }
+                  src={props.image ? props.image : uploadPicIllustration}
                   alt=""
                   id="userImage"
                 />
-              )}
+              }
             </Grid>
             <Grid item xs={9} className={classes.WSButtonsContainer}>
-              <Button
-                size="large"
-                variant="contained"
-                className={classes.WSPrimaryButton}
-                endIcon={<CloudIcon />}
-                onClick={() => handleFileUpload(hiddenInputField)}
-                disabled={props.nstState}
-              >
-                UPLOAD
-              </Button>
-              <input
-                type="file"
-                style={{ display: "none" }}
-                ref={hiddenInputField}
-                onChange={(e) => handleUploadedFile(e, dispatch)}
-              />
-              <Button
-                size="large"
-                variant="contained"
-                className={classes.WSSecondaryButton}
-                endIcon={<CameraAltIcon />}
-                disabled={props.nstState}
-              >
-                CAPTURE
-              </Button>
+              {props.nstProcessing ? (
+                <ThreeDots
+                  visible={true}
+                  height="50"
+                  width="80"
+                  color="#FF6685"
+                />
+              ) : (
+                <>
+                  <Button
+                    size="large"
+                    variant="contained"
+                    className={classes.WSPrimaryButton}
+                    endIcon={<CloudIcon />}
+                    onClick={() => handleFileUpload(hiddenInputField)}
+                  >
+                    UPLOAD
+                  </Button>
+                  <input
+                    type="file"
+                    style={{ display: "none" }}
+                    ref={hiddenInputField}
+                    onChange={(e) => handleUploadedFile(e, dispatch)}
+                  />
+                  <Button
+                    size="large"
+                    variant="contained"
+                    className={classes.WSSecondaryButton}
+                    endIcon={<CameraAltIcon />}
+                  >
+                    CAPTURE
+                  </Button>
+                </>
+              )}
             </Grid>
           </Grid>
           <Grid item container xs={6} className={classes.chooseStyleSection}>
@@ -280,16 +285,15 @@ export const WorkSpace = (props) => {
                 variant="contained"
                 className={classes.WSPrimaryButton}
                 endIcon={<CheckCircleIcon />}
-                // onClick={() =>
-                //   styleTransfer(
-                //     props.contentImage,
-                //     props.styleImage,
-                //     props.nstState,
-                //     props.NSTFunc,
-                //     dispatch
-                //   )
-                // }
-                onClick={props.NSTFunc}
+                onClick={() =>
+                  styleTransfer(
+                    props.image,
+                    props.styleImage,
+                    props.nstState,
+                    props.NSTFunc,
+                    dispatch
+                  )
+                }
               >
                 APPLY
               </Button>

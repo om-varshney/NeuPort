@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import React, { useState, useEffect } from "react";
 import * as tf from "@tensorflow/tfjs";
 import MuiAlert from "@mui/material/Alert";
-import { setNotificationContent } from "./Redux/actions/neuportActions";
 import { Snackbar } from "@mui/material";
 import NST from "./Processing/NST";
 
@@ -24,7 +23,6 @@ function App() {
       return;
     }
     setShowNotification(false);
-    dispatch(setNotificationContent({ type: "", msg: "" }));
   };
 
   const loadModel = async () => {
@@ -51,16 +49,11 @@ function App() {
       ) : (
         <WorkSpace
           image={appState.contentImage}
-          NSTFunc={async () =>
-            await NST(
-              appState.contentImage,
-              appState.styleImage,
-              model,
-              dispatch
-            )
+          NSTFunc={() =>
+            NST(appState.contentImage, appState.styleImage, model, dispatch)
           }
-          nstState={appState.nstProcessing}
-          contentImage={appState.contentImage}
+          nstProcessing={appState.nstProcessing}
+          nstDone={appState.nstDone}
           styleImage={appState.styleImage}
           outputImage={appState.outputImage}
           imageUploadText={appState.imageUploadText}

@@ -6,6 +6,7 @@ import {
   styleImageReducer,
   outputImageReducer,
   NSTProcessingReducer,
+  NSTProcessingDoneReducer,
   ImageUploadTextReducer,
 } from "./neuportReducers";
 
@@ -16,5 +17,6 @@ export const reducers = combineReducers({
   styleImage: styleImageReducer,
   outputImage: outputImageReducer,
   nstProcessing: NSTProcessingReducer,
+  nstDone: NSTProcessingDoneReducer,
   imageUploadText: ImageUploadTextReducer,
 });
