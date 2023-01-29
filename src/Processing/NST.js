@@ -9,7 +9,7 @@ import {
 
 const NST = (contentImage, styleImage, model, dispatch) => {
   try {
-    if (!contentImage || !styleImage) {
+    if (!contentImage || !styleImage || !model) {
       return;
     }
     const style = new Image(300, 300);

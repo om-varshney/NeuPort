@@ -6,6 +6,7 @@ import * as tf from "@tensorflow/tfjs";
 import MuiAlert from "@mui/material/Alert";
 import { Snackbar } from "@mui/material";
 import NST from "./Processing/NST";
+import { PreLoad } from "./Components/preload";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -44,7 +45,9 @@ function App() {
 
   return (
     <>
-      {appState.view.homeState ? (
+      {model === null ? (
+        <PreLoad />
+      ) : appState.view.homeState ? (
         <HomePage />
       ) : (
         <WorkSpace

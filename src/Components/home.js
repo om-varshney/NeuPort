@@ -6,13 +6,7 @@ import heroSectionIllustration from "../Assets/Hero Section Illustration.png";
 import { NavBar } from "./navBar";
 import { Button, Typography } from "@mui/material";
 import { useDispatch } from "react-redux";
-import {
-  setContentImage,
-  setNSTProcessing,
-  setNSTProcessingDone,
-  setStyleImage,
-  setView,
-} from "../Redux/actions/neuportActions";
+import { setView } from "../Redux/actions/neuportActions";
 
 const useStyles = makeStyles((theme) => ({
   homePage: {
