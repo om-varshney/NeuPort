@@ -278,6 +278,45 @@ export const WorkSpace = (props) => {
               <Grid item xs={6}>
                 <ImageCard index={4} />
               </Grid>
+              <Grid item xs={6}>
+                <ImageCard index={5} />
+              </Grid>
+              <Grid item xs={6}>
+                <ImageCard index={6} />
+              </Grid>
+              <Grid item xs={6}>
+                <ImageCard index={7} />
+              </Grid>
+              <Grid item xs={6}>
+                <ImageCard index={8} />
+              </Grid>
+              <Grid item xs={6}>
+                <ImageCard index={9} />
+              </Grid>
+              <Grid item xs={6}>
+                <ImageCard index={10} />
+              </Grid>
+              <Grid item xs={6}>
+                <ImageCard index={11} />
+              </Grid>
+              <Grid item xs={6}>
+                <ImageCard index={12} />
+              </Grid>
+              <Grid item xs={6}>
+                <ImageCard index={13} />
+              </Grid>
+              <Grid item xs={6}>
+                <ImageCard index={14} />
+              </Grid>
+              <Grid item xs={6}>
+                <ImageCard index={15} />
+              </Grid>
+              <Grid item xs={6}>
+                <ImageCard index={16} />
+              </Grid>
+              <Grid item xs={6}>
+                <ImageCard index={17} />
+              </Grid>
             </Grid>
             <Grid item xs={9} className={classes.WSButtonsContainer}>
               <Button
